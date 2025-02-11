@@ -14,6 +14,7 @@
             </div>
         </div>
         <div class="col-md-7 d-flex justify-content-center" style="flex-direction: column">
+            @include('includes.messages')
             <h3 class="mb-5">Login</h3>
             <form id="donationForm" action="{{route('login')}}" method="POST">
                 @csrf
