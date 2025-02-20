@@ -21,14 +21,19 @@
         @stack('css')
     </head>
     <body>
-        @auth
+        @auth('admin')
+            @include('layouts.admin')
+        @elseauth('web')
             @include('layouts.auth')
         @endauth
 
-        @guest
-            @include('layouts.guest')
+        @guest('admin')
+            @guest('web')
+                @include('layouts.guest')
+            @endguest
         @endguest
 
         @include('includes.bottom-scripts')
     </body>
+
 </html>
