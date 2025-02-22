@@ -20,7 +20,7 @@ class AdminController extends Controller
             'password' => 'required|min:8'
         ]);
 
-        $user = \App\Models\User::where('email', $request->email)->where('user_type', 'admin')->first();
+        $user = User::where('email', $request->email)->where('user_type', 'admin')->first();
 
         if (!$user) {
             return back()->withInput()->withErrors(['email' => 'Invalid Admin credentials']);
@@ -43,11 +43,21 @@ class AdminController extends Controller
         $donations = Donation::latest()->get();
         $donation_sum = $donations->sum('amount');
 
-        $donors = User::where('user_type', 'donor')->latest()->get();
-        $donor_count = $donors->count();
+        $donor_count = User::where('user_type', 'donor')->count();
 
-        $support_applications_count = SupportApplication::count();
+        $support_applications = SupportApplication::latest()->get();
+        $support_applications_count = $support_applications->count();
 
-        return view('admin.dashboard', compact('donation_sum', 'donor_count', 'support_applications_count'));
+        return view('admin.dashboard', compact('donations','donation_sum', 'donor_count', 'support_applications', 'support_applications_count'));
+    }
+
+    public function applications(){
+        $applications = SupportApplication::latest()->get();
+        return view('admin.applications', compact('applications'));
+    }
+
+    public function donations(){
+        $donations = Donation::latest()->get();
+        return view('admin.donations', compact('donations'));
     }
 }

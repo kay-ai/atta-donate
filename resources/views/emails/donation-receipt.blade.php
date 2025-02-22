@@ -4,17 +4,9 @@
     <title>Thank You for Your Generous Donation</title>
 </head>
 <body>
-    @php
-        $type = [
-            "it-equipment" => "IT Equipment",
-            "free-training" => "Free Training",
-            "financial" => "Financial Support"
-        ];
-    @endphp
-
     <h2>Dear {{ $name }},</h2>
 
-    <p>We sincerely appreciate your generous donation towards {{ $type[$donation_type] ?? $donation_type }}. Your support is making a significant impact in empowering underserved students with IT education and providing them with the tools they need to succeed.</p>
+    <p>We sincerely appreciate your generous donation. Your support is making a significant impact in empowering under-served students with IT education and providing them with the tools they need to succeed.</p>
 
     @if($donation_type == 'financial')
         <p>Your contribution of ₦{{ number_format($amount) }} is helping us bridge the digital divide and create opportunities for those who need them most.</p>

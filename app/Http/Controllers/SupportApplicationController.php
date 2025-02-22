@@ -43,7 +43,7 @@ class SupportApplicationController extends Controller
 
         $cvPath = $request->file('cv') ? $request->file('cv')->store('cvs', 'public') : null;
 
-        SupportApplication::create([
+        $application = SupportApplication::create([
             'support_type' => $request->support_type,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -77,6 +77,25 @@ class SupportApplicationController extends Controller
 
         Mail::send('emails.application-receipt', $emailData, function ($mail) use ($email, $subject) {
             $mail->to($email)->subject($subject);
+        });
+
+        $phone = $request->phone;
+        $message = $request->message;
+
+        $adminData = [
+            'full_name' => $full_name,
+            'support_type' => $support_type,
+            'phone' => $phone,
+            'email' => $email,
+            'more_message' => $message,
+            'application_date' => $application->created_date,
+        ];
+
+        $subject = "New Application Received";
+        $admin_email = env('ADMIN_EMAIL');
+
+        Mail::send('emails.application-notify-admin', $adminData, function ($mail) use ($admin_email, $subject) {
+            $mail->to($admin_email)->subject($subject);
         });
 
         return redirect()->back()->with('success', 'Application submitted successfully!');

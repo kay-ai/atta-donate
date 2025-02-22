@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row justify-content-center" style="height: 100%">
+    <div class="row justify-content-center mt-5" style="height: 70%">
         <div class="col-md-5 d-flex justify-content-center shadow p-5 bg-light" style="flex-direction: column; border-radius: 15px;">
             @include('includes.messages')
             <h3 class="mb-5">Login</h3>

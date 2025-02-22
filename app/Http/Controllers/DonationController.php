@@ -9,6 +9,7 @@ use App\Models\Transaction;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class DonationController extends Controller
@@ -25,9 +26,14 @@ class DonationController extends Controller
 
         $paystackResponse = $response->json();
 
+        Log::debug($paystackResponse);
+
         if (!$paystackResponse['status'] || $paystackResponse['data']['status'] !== 'success') {
+            Log::debug('Verification Failed');
             return response()->json(['success' => false, 'message' => 'Payment verification failed.'], 400);
         }
+
+        Log::debug('Code Passed Success');
 
         $email = $request->email;
         $existingUser = User::where('email', $email)->first();
@@ -58,7 +64,7 @@ class DonationController extends Controller
             'status' => 'success'
         ]);
 
-        Donation::create([
+        $donation = Donation::create([
             'user_id' => $user->id,
             'transaction_id' => $transaction->id,
             'amount' => $verified_amount,
@@ -76,6 +82,7 @@ class DonationController extends Controller
 
             $this->sendEmail($name, $email, $password, $verified_amount, $request->donation_type, $login_link, $opt_out_link, $website_url, $contact_email);
         }
+        $this->notifyAdminDonation($name, $email, $donation->created_at, $password, $verified_amount, $request->donation_type);
 
         return response()->json([
             'success' => true,
@@ -128,12 +135,13 @@ class DonationController extends Controller
                 'email'      => $email,
                 'phone'      => $validatedData['phone'] ?? null,
                 'password'   => Hash::make($password),
+                'user_type' => 'donor',
             ]);
 
             $this->sendEmail($name, $email, $password, $amount, $donation_type, $login_link, $opt_out_link, $website_url, $contact_email);
         }
 
-        Donation::create([
+        $donation = Donation::create([
             'user_id'     => $user->id,
             'donation_type' => $validatedData['donate_type'],
             'location'    => $location,
@@ -141,10 +149,12 @@ class DonationController extends Controller
             'message'     => $message,
         ]);
 
+        $this->notifyAdminDonation($name, $email, $donation->createed_at, $password, $amount, $donation_type);
+
         return redirect()->route('thank.you', ['email' => $user->email]);
     }
 
-    private function sendEmail($name, $email, $password, $amount = null, $donation_type = null, $login_link = null, $opt_out_link = null, $website_url = null, $contact_email = null){
+    private function sendEmail($name, $email, $password=null, $amount = null, $donation_type = null, $login_link = null, $opt_out_link = null, $website_url = null, $contact_email = null){
         Mail::send('emails.donation-receipt', [
             'name' => $name,
             'email' => $email,
@@ -157,6 +167,21 @@ class DonationController extends Controller
             'contact_email' => $contact_email,
         ], function ($mail) use ($email) {
             $mail->to($email)->subject("Donation Successful & Account Created");
+        });
+    }
+
+    private function notifyAdminDonation($name, $email, $date, $password=null, $amount = null, $donation_type = null){
+        $admin_email = env('ADMIN_EMAIL');
+
+        Mail::send('emails.donation-notify-admin', [
+            'name'=> $name,
+            'email'=> $email,
+            'password'=> $password,
+            'amount'=> $amount,
+            'date'=> $date,
+            'donation_type'=> $donation_type,
+        ], function ($mail) use ($admin_email) {
+            $mail->to($admin_email)->subject("New Donation Alert");
         });
     }
 

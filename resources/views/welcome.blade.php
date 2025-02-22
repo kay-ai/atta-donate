@@ -20,11 +20,11 @@
                 @csrf
                 <div class="d-flex py-4" id="moneyDiv" style="flex-wrap: wrap;">
                     <p class="money px-3 py-2">Custom</p>
-                    <p class="money px-3 py-2" data-amount="50000">&#x20A6 50,000</p>
-                    <p class="money px-3 py-2" data-amount="100000">&#x20A6 100,000</p>
-                    <p class="money px-3 py-2" data-amount="200000">&#x20A6 200,000</p>
-                    <p class="money px-3 py-2" data-amount="500000">&#x20A6 500,000</p>
-                    <p class="money px-3 py-2" data-amount="1000000">&#x20A6 1,000,000</p>
+                    <p class="money px-3 py-2" data-amount="50000"><span class="strike-through">N</span> 50,000</p>
+                    <p class="money px-3 py-2" data-amount="100000"><span class="strike-through">N</span> 100,000</p>
+                    <p class="money px-3 py-2" data-amount="200000"><span class="strike-through">N</span> 200,000</p>
+                    <p class="money px-3 py-2" data-amount="500000"><span class="strike-through">N</span> 500,000</p>
+                    <p class="money px-3 py-2" data-amount="1000000"><span class="strike-through">N</span> 1,000,000</p>
                 </div>
 
                 <p style="font-weight:500">Additional Information</p>
