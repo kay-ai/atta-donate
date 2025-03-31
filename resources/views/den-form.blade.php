@@ -1,12 +1,24 @@
 @extends('layouts.app')
-
+@push('css')
+<style>
+    .title-height {
+        flex-direction: column;
+        height: 95vh;
+    }
+    @media (max-width: 768px) {
+      .title-height {
+        height: 20vh;
+      }
+    }
+  </style>
+@endpush
 @section('content')
-    <div class="row">
+    <div class="row px-3">
         <div class="col-md-5">
             <a href="https://www.atta.ng" class="n-link">
                 <i class="fa fa-long-arrow-left" aria-hidden="true" style="font-size: 18px;"></i>
             </a>
-            <div class="d-flex justify-content-center" style="flex-direction: column; height:95vh">
+            <div class="d-flex justify-content-center title-height">
                 <h3>ATTA's Den</h3>
                 <h5>Empowering IT Innovation and Excellence</h5>
             </div>
