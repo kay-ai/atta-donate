@@ -23,7 +23,7 @@
         <div class="col-md-3 mb-3">
             <div class="card dashboard-metrics shadow-sm px-4 py-2">
                 <p>Den Submissions</p>
-                <h2 class="text-brown">0</h2>
+                <h2 class="text-brown">{{$den_applications_count}}</h2>
             </div>
         </div>
     </div>
@@ -98,6 +98,73 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-12 mt-3">
+            <div class="card shadow-sm md-p-4" style="border-radius: 15px">
+                <h4 class="text-green mb-4">Den Submissions</h4>
+                <div class="row">
+                    @if(count($den_applications) > 0)
+                        @foreach($den_applications as $application)
+                            <div class="col-md-4 mb-4">
+                                <div class="card shadow-sm p-3 position-relative" style="border-radius: 10px;">
+
+                                    {{-- Status & Stage Badges --}}
+
+                                    {{-- Video Pitch --}}
+                                    <div class="embed-responsive embed-responsive-16by9" style="border-radius: 10px;">
+                                        <iframe class="embed-responsive-item" src="{{ $application->video_pitch }}"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+                                        </iframe>
+                                    </div>
+
+                                    {{-- Applicant Details --}}
+                                    <div class="card-body p-1 pt-4">
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <span class="badge
+                                                {{ $application->status == 'approved' ? 'bg-success' : ($application->status == 'pending' ? 'bg-warning' : 'bg-danger') }}">
+                                                {{ ucfirst($application->status) }}
+                                            </span>
+                                            <span class="badge bg-dark text-white">
+                                                Stage: {{ ucfirst($application->stage) }}
+                                            </span>
+                                        </div>
+                                        <h5 class="card-title">{{ $application->first_name }} {{ $application->last_name }}</h5>
+                                        <p class="card-text">
+                                            <strong>Funding Amount:</strong> ${{ $application->funding_amount }}<br>
+                                            <strong>Phone:</strong> {{ $application->phone }}<br>
+                                            <strong>Submitted:</strong> {{ $application->created_at->diffForHumans() }}
+                                        </p>
+
+                                        {{-- Action Buttons --}}
+                                        <div class="d-flex justify-content-between">
+                                            <a href="{{ route('admin.den.application.details', $application->id) }}" target="_blank" class="btn btn-dark" style="border-radius: 20px; font-size:13px;">
+                                                View
+                                            </a>
+                                            @if($application->status != 'approved')
+                                            <div>
+                                                <button class="btn btn-danger" style="border-radius: 20px; font-size:13px;" onclick="deleteApplication({{ $application->id }})">
+                                                    Delete
+                                                </button>
+                                                <button id="approve-btn-{{ $application->id }}" class="btn submit-btn"
+                                                    style="border-radius: 20px; font-size:13px;"
+                                                    onclick="approveApplication({{ $application->id }})">
+                                                    Approve
+                                                </button>
+                                            </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <p class="text-center w-100">No applications to show</p>
+                    @endif
+                </div>
+            </div>
+        </div>
+
     </div>
 @endsection
+
 

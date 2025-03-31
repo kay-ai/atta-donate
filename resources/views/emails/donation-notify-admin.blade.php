@@ -36,7 +36,7 @@
     <br>
     <p>You can manage this donation and view donor details in the admin dashboard:</p>
     <p>
-        <a href="{{ route('admin.dashboard') }}" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">View in Dashboard</a>
+        <a href="{{ route('admin.dashboard') }}" style="padding: 10px 20px; background-color: #abde3d; color: white; text-decoration: none; border-radius: 15px;">View in Dashboard</a>
     </p>
     <br>
     <p>Best Regards,</p>

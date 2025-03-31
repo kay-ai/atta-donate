@@ -12,6 +12,7 @@
             <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
             <a href="{{ route('admin.applications') }}" class="{{ request()->routeIs('admin.applications') ? 'active' : '' }}">Applications</a>
             <a href="{{ route('admin.donations') }}" class="{{ request()->routeIs('admin.donations') ? 'active' : '' }}">Donations</a>
+            <a href="{{ route('admin.calendarInterview') }}" class="{{ request()->routeIs('admin.calendarInterview') ? 'active' : '' }}">Calender</a>
             <a href="javascript:void(0)" onclick="$('#logout-form').submit();" class="mt-3 logout-link">Logout</a>
         </nav>
     </div>

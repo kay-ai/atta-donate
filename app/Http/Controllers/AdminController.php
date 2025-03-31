@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DenApplication;
 use App\Models\Donation;
 use App\Models\SupportApplication;
 use App\Models\User;
@@ -48,7 +49,10 @@ class AdminController extends Controller
         $support_applications = SupportApplication::latest()->get();
         $support_applications_count = $support_applications->count();
 
-        return view('admin.dashboard', compact('donations','donation_sum', 'donor_count', 'support_applications', 'support_applications_count'));
+        $den_applications = DenApplication::latest()->get();
+        $den_applications_count = $den_applications->count();
+
+        return view('admin.dashboard', compact('donations','donation_sum', 'donor_count', 'support_applications', 'support_applications_count', 'den_applications', 'den_applications_count'));
     }
 
     public function applications(){

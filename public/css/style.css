@@ -185,11 +185,11 @@ body {
 
 @media (max-width: 768px){
     .contain{
-        padding: 15px;
+        padding: 10px;
     }
 
     .contain-content{
-        padding: 30px !important;
+        padding: 30px 3px !important;
     }
 
     .sub-title{
