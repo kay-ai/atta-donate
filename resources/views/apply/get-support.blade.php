@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row px-3">
+    <div class="row px-3 mb-5">
         <div class="col-md-5">
             <a href="https://www.atta.ng" class="n-link">
                 <i class="fa fa-long-arrow-left" aria-hidden="true" style="font-size: 18px;"></i>
