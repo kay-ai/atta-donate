@@ -17,6 +17,7 @@
                     <th>Phone</th>
                     <th>Area of Interest</th>
                     <th>CV</th>
+                    <th style="min-width:200px">Message</th>
                     <th>Institution</th>
                     <th>Created At</th>
                 </tr>
@@ -38,6 +39,7 @@
                                 N/A
                             @endif
                         </td>
+                        <td>{{ $application->message }}</td>
                         <td>{{ $application->institution }}</td>
                         <td>{{ $application->created_at->format('d-m-Y H:i:s') }}</td>
                     </tr>
@@ -46,4 +48,3 @@
         </table>
     </div>
 @endsection
-
